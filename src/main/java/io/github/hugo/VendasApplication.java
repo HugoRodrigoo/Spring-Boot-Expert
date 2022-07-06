@@ -26,12 +26,8 @@ public class VendasApplication {
             clientes.save(new Cliente("outrocliente"));
 
             String nome1 = "Hugo";
-            boolean existe = clientes.existsByNome(nome1);
-            if(existe == true){
-                System.out.println("existe o nome "+nome1+" na lista");
-            }else{
-                System.out.println("não exite o nome "+nome1+" na lista");;
-            }
+            List<Cliente> res = clientes.encontraPorNome(nome1);
+            res.forEach(System.out::println);
 
 
 
