@@ -1,17 +1,22 @@
-package io.github.hugo.domain.entiti;
+package io.github.hugo.domain.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
+import java.util.Set;
 
 @Entity
+@Table(name = "Cliente")
 public class Cliente {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     private int id;
+    @Column(name = "nome",length = 100)
     private String nome;
+
+    @OneToMany( mappedBy = "cliente")
+    private Set<Pedido> pedidos;
 
     public Cliente() {
     }
@@ -47,5 +52,13 @@ public class Cliente {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public Set<Pedido> getPedidos() {
+        return pedidos;
+    }
+
+    public void setPedidos(Set<Pedido> pedidos) {
+        this.pedidos = pedidos;
     }
 }

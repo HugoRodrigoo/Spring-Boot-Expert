@@ -1,6 +1,6 @@
 package io.github.hugo.domain.repositorio;
 
-import io.github.hugo.domain.entiti.Cliente;
+import io.github.hugo.domain.entity.Cliente;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
