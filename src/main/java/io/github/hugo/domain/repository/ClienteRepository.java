@@ -1,4 +1,4 @@
-package io.github.hugo.domain.repositorio;
+package io.github.hugo.domain.repository;
 
 import io.github.hugo.domain.entity.Cliente;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,7 +11,7 @@ import java.util.List;
 
 
 @Repository
-public interface Clientes extends JpaRepository<Cliente, Integer> {
+public interface ClienteRepository extends JpaRepository<Cliente, Integer> {
    @Query(value= "select * from Cliente c where c.nome like '%:nome%'",nativeQuery = true)
    List<Cliente> encontraPorNome(@Param("nome") String nome);
    @Query(value = "delete from Cliente c where = :nome")

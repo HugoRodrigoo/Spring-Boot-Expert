@@ -2,7 +2,7 @@ package io.github.hugo;
 
 
 import io.github.hugo.domain.entity.Cliente;
-import io.github.hugo.domain.repositorio.Clientes;
+import io.github.hugo.domain.repository.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -16,15 +16,15 @@ import java.util.List;
 public class VendasApplication {
 
     @Bean
-    public CommandLineRunner init(@Autowired Clientes clientes){
+    public CommandLineRunner init(@Autowired ClienteRepository clienteRepository){
         return  args -> {
             System.out.println("Salvando clientes");
 
-            clientes.save(new Cliente("hugo"));
-            clientes.save(new Cliente("outrocliente"));
+            clienteRepository.save(new Cliente("hugo"));
+            clienteRepository.save(new Cliente("outrocliente"));
 
             String nome1 = "Hugo";
-            List<Cliente> res = clientes.encontraPorNome(nome1);
+            List<Cliente> res = clienteRepository.encontraPorNome(nome1);
             res.forEach(System.out::println);
 
 
