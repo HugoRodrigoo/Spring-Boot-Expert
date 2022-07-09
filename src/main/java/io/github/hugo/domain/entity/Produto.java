@@ -2,15 +2,21 @@ package io.github.hugo.domain.entity;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+
 @Entity
-@Table(name = "Produto")
+@Table(name = "produto")
 public class Produto {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Integer id;
-    private String discricao;
-    private BigDecimal preco_unitario;
+
+    @Column(name = "descricao")
+    private String descricao;
+
+    @Column(name = "preco_unitario")
+    private BigDecimal preco;
 
     public Integer getId() {
         return id;
@@ -20,19 +26,19 @@ public class Produto {
         this.id = id;
     }
 
-    public String getDiscricao() {
-        return discricao;
+    public String getDescricao() {
+        return descricao;
     }
 
-    public void setDiscricao(String discricao) {
-        this.discricao = discricao;
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 
-    public BigDecimal getPreco_unitario() {
-        return preco_unitario;
+    public BigDecimal getPreco() {
+        return preco;
     }
 
     public void setPreco(BigDecimal preco) {
-        this.preco_unitario = preco;
+        this.preco = preco;
     }
 }
