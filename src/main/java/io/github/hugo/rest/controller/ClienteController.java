@@ -1,21 +1,33 @@
 package io.github.hugo.rest.controller;
 
 import io.github.hugo.domain.entity.Cliente;
+import io.github.hugo.domain.repository.Clientes;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @Controller
 public class ClienteController {
 
-    @RequestMapping(
-            value = "/hello/{nome}",
-            method = RequestMethod.GET,
-            consumes = {"application/json","application/xml"},
-            produces = {"application/json","application/xml"}
-    )
+    private Clientes clientes;
+
+    public ClienteController(Clientes clientes) {
+        this.clientes = clientes;
+    }
+
+    @GetMapping("/api/clientes/{id}")
     @ResponseBody
-    public String helloCliente(@PathVariable("nome") String nomeCliente, @RequestBody Cliente cliente){
-        return  String.format("Hellou %s ", nomeCliente);
+    public ResponseEntity getClienteById( @PathVariable Integer id){
+        Optional<Cliente> cliente = clientes.findById(id);
+        if(cliente.isPresent()){
+            return ResponseEntity.ok( cliente.get());
+        }else{
+            return ResponseEntity.notFound().build();
+        }
     }
 
 }
