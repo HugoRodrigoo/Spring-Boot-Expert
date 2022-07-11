@@ -3,12 +3,15 @@ package io.github.hugo.rest.controller;
 import io.github.hugo.domain.entity.Cliente;
 import io.github.hugo.domain.repository.Clientes;
 import net.bytebuddy.asm.Advice;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -59,6 +62,18 @@ public class ClienteController {
                     clientes.save(cliente);
                     return ResponseEntity.noContent().build();
                 }).orElseGet(()-> ResponseEntity.notFound().build());
+    }
+    @GetMapping("/api/clientes")
+    public ResponseEntity find(Cliente filtro){
+        ExampleMatcher matcher = ExampleMatcher
+                                    .matching()
+                                    .withIgnoreCase()
+                                    .withStringMatcher(
+                                            ExampleMatcher.StringMatcher.CONTAINING);
+        Example example = Example.of(filtro,matcher);
+        List<Cliente> list = clientes.findAll(example);
+        return ResponseEntity.ok(list);
+
     }
 
 }
