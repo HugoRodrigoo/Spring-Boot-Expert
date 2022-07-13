@@ -2,33 +2,28 @@ package io.github.hugo.rest.controller;
 
 import io.github.hugo.domain.entity.Cliente;
 import io.github.hugo.domain.repository.Clientes;
-import net.bytebuddy.asm.Advice;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/clientes")
 public class ClienteController {
 
+    @Autowired
     private Clientes clientes;
 
-    public ClienteController(Clientes clientes) {
-        this.clientes = clientes;
-    }
+
 
     @GetMapping("/{id}")
     public Cliente getClienteById( @PathVariable Integer id) {
        return clientes.findById(id)
-               .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Cliente não encontrado"));
+               .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Cleinte não encontrado."));
 
 
     }
@@ -51,7 +46,7 @@ public class ClienteController {
 
     }
     @PutMapping("/{id}")
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@PathVariable Integer id,
                        @RequestBody Cliente cliente){
         clientes.findById(id)

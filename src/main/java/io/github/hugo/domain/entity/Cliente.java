@@ -10,7 +10,7 @@ import java.util.Set;
 public class Cliente {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
 
@@ -19,6 +19,7 @@ public class Cliente {
 
     @Column(name = "cpf",length = 11)
     private String cpf;
+
 
 
 
@@ -37,10 +38,12 @@ public class Cliente {
         this.pedidos = pedidos;
     }
 
-    public Cliente(Integer id, String nome) {
+    public Cliente(Integer id, String nome, String cpf) {
         this.id = id;
         this.nome = nome;
+        this.cpf = cpf;
     }
+
     public String getCpf() {
         return cpf;
     }
