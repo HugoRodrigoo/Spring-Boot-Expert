@@ -18,13 +18,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class PedidoServiceImpl implements PedidoService {
 
-    private final Pedidos Pedidosrepository;
+    private final Pedidos pedidosRepository;
     private final Clientes clientesRepository;
     private final Produtos produtosRepository;
     private final ItemsPedido itemsPedidoRepository;
@@ -43,11 +44,17 @@ public class PedidoServiceImpl implements PedidoService {
         pedido.setCliente(cliente);
 
         List<ItemPedido> itemsPedido = converterItems(pedido, dto.getItems());
-        Pedidosrepository.save(pedido);
+        pedidosRepository.save(pedido);
         itemsPedidoRepository.saveAll(itemsPedido);
         pedido.setItens(itemsPedido);
         return pedido;
     }
+
+    @Override
+    public Optional<Pedido> obterPedidoCompleto(Integer id) {
+        return pedidosRepository.findByIdFetchItens(id);
+    }
+
 
     private List<ItemPedido> converterItems(Pedido pedido, List<ItemPedidoDTO> items){
         if(items.isEmpty()){
