@@ -1,5 +1,6 @@
 package io.github.hugo.rest.controller;
 
+import io.github.hugo.exception.PedidoNaoEncontradoException;
 import io.github.hugo.exception.RegraNegocioException;
 import io.github.hugo.rest.ApiErrors;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,11 @@ public class ApplicationControllerAdvice {
     public ApiErrors handleRegraNegocioException(RegraNegocioException ex){
         String mensagemErro = ex.getMessage();
         return new ApiErrors(mensagemErro);
+    }
+    @ExceptionHandler(PedidoNaoEncontradoException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public  ApiErrors handlePedidoNotFoudExeption(PedidoNaoEncontradoException ex){
+         return  new ApiErrors(ex.getMessage());
     }
 
 }

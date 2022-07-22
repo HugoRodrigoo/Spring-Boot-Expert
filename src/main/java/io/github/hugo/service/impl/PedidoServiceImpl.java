@@ -4,17 +4,21 @@ import io.github.hugo.domain.entity.Cliente;
 import io.github.hugo.domain.entity.ItemPedido;
 import io.github.hugo.domain.entity.Pedido;
 import io.github.hugo.domain.entity.Produto;
+import io.github.hugo.domain.enums.StatusPedido;
 import io.github.hugo.domain.repository.Clientes;
 import io.github.hugo.domain.repository.ItemsPedido;
 import io.github.hugo.domain.repository.Pedidos;
 import io.github.hugo.domain.repository.Produtos;
+import io.github.hugo.exception.PedidoNaoEncontradoException;
 import io.github.hugo.exception.RegraNegocioException;
 import io.github.hugo.rest.dto.ItemPedidoDTO;
 import io.github.hugo.rest.dto.PedidoDTO;
 import io.github.hugo.service.PedidoService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -42,6 +46,7 @@ public class PedidoServiceImpl implements PedidoService {
         pedido.setTotal(dto.getTotal());
         pedido.setDataPedido(LocalDate.now());
         pedido.setCliente(cliente);
+        pedido.setStatus(StatusPedido.REALIZADO);
 
         List<ItemPedido> itemsPedido = converterItems(pedido, dto.getItems());
         pedidosRepository.save(pedido);
@@ -53,6 +58,16 @@ public class PedidoServiceImpl implements PedidoService {
     @Override
     public Optional<Pedido> obterPedidoCompleto(Integer id) {
         return pedidosRepository.findByIdFetchItens(id);
+    }
+
+    @Override
+    @Transactional
+    public void atualizaStatus(Integer id, StatusPedido statusPedido) {
+        pedidosRepository.findById(id)
+                .map(pedido -> {
+                    pedido.setStatus(statusPedido);
+                    return pedidosRepository.save(pedido);
+                }).orElseThrow(() -> new PedidoNaoEncontradoException());
     }
 
 
