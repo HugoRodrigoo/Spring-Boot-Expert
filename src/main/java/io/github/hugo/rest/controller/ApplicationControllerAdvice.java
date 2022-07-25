@@ -4,10 +4,14 @@ import io.github.hugo.exception.PedidoNaoEncontradoException;
 import io.github.hugo.exception.RegraNegocioException;
 import io.github.hugo.rest.ApiErrors;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class ApplicationControllerAdvice {
@@ -22,5 +26,12 @@ public class ApplicationControllerAdvice {
     public  ApiErrors handlePedidoNotFoudExeption(PedidoNaoEncontradoException ex){
          return  new ApiErrors(ex.getMessage());
     }
-
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ApiErrors handleMethodVNotValidExeption(MethodArgumentNotValidException ex){
+        List<String> erros = ex.getBindingResult().getAllErrors()
+                .stream()
+                .map(erro -> erro.getDefaultMessage() ).collect(Collectors.toList());
+        return new ApiErrors(erros);
+    }
 }
