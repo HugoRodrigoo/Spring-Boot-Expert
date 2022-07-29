@@ -31,7 +31,7 @@ public class ClienteController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Cliente save(@Valid @RequestBody Cliente cliente){
+    public Cliente save(@RequestBody @Valid Cliente cliente){
         return clientes.save(cliente);
 
             }
@@ -41,9 +41,6 @@ public class ClienteController {
         clientes.findById(id).map(cliente -> {clientes.delete(cliente);
             return cliente;})
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Cliente não encontrado"));
-
-
-
 
     }
     @PutMapping("/{id}")

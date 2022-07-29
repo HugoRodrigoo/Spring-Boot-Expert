@@ -53,7 +53,10 @@ public class ProdutoController {
     }
     @GetMapping
     public List<Produto> find(Produto filtro){
-        ExampleMatcher matcher = ExampleMatcher.matching().withIgnoreCase().withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
+        ExampleMatcher matcher = ExampleMatcher
+                .matching()
+                .withIgnoreCase()
+                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
         Example example = Example.of(filtro,matcher);
         return repository.findAll(example);
     }
