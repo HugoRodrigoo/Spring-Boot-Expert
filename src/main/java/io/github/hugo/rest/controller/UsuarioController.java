@@ -17,6 +17,7 @@ public class UsuarioController {
 
     private final UsuarioServiceImpl usuarioService;
     private final PasswordEncoder encoder;
+    
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
