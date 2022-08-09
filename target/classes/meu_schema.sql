@@ -26,3 +26,9 @@ create table cliente(
 
 
   );
+  create table  USUARIO(
+  ID integer PRIMARY KEY AUTO_INCREMENT,
+  LOGIN varchar(50) not null,
+  SENHA varchar(255) not null,
+  ADMIN bool DEFAULT FALSE
+  );
